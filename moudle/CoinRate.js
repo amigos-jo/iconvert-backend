@@ -9,7 +9,7 @@ const currencyRate=(req,res)=>{
         access_key:CURRENCY_API_KEY
     }
     
-    const CurrencyUrl=`https://v6.exchangerate-api.com/v6/b7b2eca6061ee4f6f0cd9cc3/latest/${base}`;
+    const CurrencyUrl=`https://v6.exchangerate-api.com/v6/ea2e422feb34124fcd806b74/latest/${base}`;
     superagent.get(CurrencyUrl)
      .then(currData=>{
         //   if (cacheMemory !== undefined){
