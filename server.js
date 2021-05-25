@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const handleCurrency=require('./moudle/Excoin');
 const currencyRate=require('./moudle/CoinRate');
 const user=require('./moudle/User');
+const gethistory=require('./moudle/history')
 
 
 const { Schema } = mongoose;
@@ -18,6 +19,6 @@ app.get('/', function (req, res) {
 app.get('/excoin',handleCurrency);
 app.get('/ratecoin',currencyRate);
 app.get('/user',user.getUser)
+app.get('/history',gethistory)
 app.post('/user',user.addUser)
-app.post('/histoty',gethistory)
 app.listen(PORT,()=>{console.log(`server at ${PORT}`)});

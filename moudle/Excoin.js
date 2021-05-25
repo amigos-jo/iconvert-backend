@@ -3,12 +3,12 @@ const superagent = require('superagent');
 
 const CURRENCY_API_KEY = '37ad8f4959667bb1117ffad8d35667ba'
 const handleCurrency = (req, res) => {
-  const query=req.query.x;
-  const queryArr=query.split(',');
-  const fromCoin = queryArr[0]
-  const toCoin=queryArr[1];
-  const amount =queryArr[2];
-console.log(queryArr)
+  // const query=req.query.x;
+  // const queryArr=query.split(',');
+  const fromCoin = req.query.fromCoin
+  const toCoin=req.query.toCoin
+  const amount =req.query.amount
+// console.log(queryArr)
 
 
   // const Symbol=req.query.Symbol
@@ -19,7 +19,7 @@ console.log(queryArr)
     access_key: CURRENCY_API_KEY
   }
 
-  const CurrencyUrl = `https://v6.exchangerate-api.com/v6/b7b2eca6061ee4f6f0cd9cc3/pair/${fromCoin}/${toCoin}/${amount}`;
+  const CurrencyUrl = `https://v6.exchangerate-api.com/v6/ea2e422feb34124fcd806b74/pair/${fromCoin}/${toCoin}/${amount}`;
   superagent.get(CurrencyUrl)
     .then(currData => {
       //   if (cacheMemory !== undefined){
@@ -35,13 +35,4 @@ console.log(queryArr)
     }).catch(console.error)
 }
 
-class COINS {
-  constructor(coin) {
-    this.base_code = coin.base_code
-    this.target_code = coin.target_code
-    this.conversion_rate = coin.conversion_rate
-    // this.date=coin.date
-    // this.rates=coin.rates
-  }
-}
 module.exports = handleCurrency

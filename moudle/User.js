@@ -7,9 +7,14 @@ const coinSchema = new Schema({
     symboleCoin: String,
 
 })
+const pairSchema=new Schema({
+pair:String,
+
+})
 const userSchema = new Schema({
     email: String,
-    currency: [coinSchema]
+    currency: [coinSchema],
+    pairCurrency:[pairSchema]
 });
 const User = mongoose.model('User', userSchema);
   const getUser = async (req, res) => {
@@ -24,12 +29,13 @@ const User = mongoose.model('User', userSchema);
     })
 }
 callCoin = async (coinSchema) => {
-    const coinUrl = await `https://v6.exchangerate-api.com/v6/b7b2eca6061ee4f6f0cd9cc3/latest/${coinSchema[0].symboleCoin}`
-    // console.log(coinUrl)
+    const coinUrl = await `https://v6.exchangerate-api.com/v6/ea2e422feb34124fcd806b74/latest/${coinSchema[0].symboleCoin}`
+    // console.log('coinSchema',coinSchema[0])
 
     superagent.get(coinUrl)
     .then(currData=>{
                 const rate =currData.body.conversion_rates
+                console.log('rate',rate)
      
 const xx=[];
 for(let i=0;i<coinSchema.length;i++){
@@ -38,22 +44,28 @@ for(let i=0;i<coinSchema.length;i++){
     x.sym=sym;
     x.rate=rate[sym];
     xx.push(x);
+    // console.log('sym',rate);
 }
-console.log(xx);
    }).catch(console.error)
 }
 
 callAdd=(email)=>{
     const user = new User({
     email:email,
-    currency: [
+       currency: [
         {
             index: '0',
             symboleCoin: 'USD'
-        }, {
+        }, 
+        {
             index: '1',
             symboleCoin: 'JOD'
-        }]
+        }],
+        pairCurrency:[
+            {
+                pair: 'EUR/JOD'
+            }
+        ],
 });
 user.save();
 }
@@ -63,7 +75,6 @@ const user = new User({
         {
             index: '0',
             symboleCoin: 'JOD'
-
         },
         {
             index: '1',
@@ -74,8 +85,16 @@ const user = new User({
             symboleCoin: 'TRY'
         }
     ],
+    pairCurrency:[
+        {
+            pair: 'USD/JOD'
+        },
+        {
+            pair: 'TRY/EUR'    
+        }
+    ]
 });
-// user.save();
+user.save();
 
 // add new coins from user to server
 
