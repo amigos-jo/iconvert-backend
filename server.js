@@ -13,7 +13,7 @@ const gethistory=require('./moudle/history')
 
 const { Schema } = mongoose;
 
-const PORT=process.env.PORT||3158;
+const PORT=process.env.PORT||8090;
 app.get('/', function (req, res) {
   res.send('Hello FROM OUR ICONVERT BACKEND')
 })
@@ -22,6 +22,6 @@ app.get('/ratecoin',currencyRate);
 app.get('/user',user.getUser)
 app.get('/history',gethistory)
 app.post('/user',user.addUser)
-app.post('/user',user.addPair)
+app.get('/addcoin',user.addPair)
 app.delete('/user/:id',user.deletePair)
 app.listen(PORT,()=>{console.log(`server at ${PORT}`)});
