@@ -19,7 +19,9 @@ const handleCurrency = (req, res) => {
     access_key: CURRENCY_API_KEY
   }
 
-  const CurrencyUrl = `https://v6.exchangerate-api.com/v6/ea2e422feb34124fcd806b74/pair/${fromCoin}/${toCoin}/${amount}`;
+
+  const CurrencyUrl = `https://v6.exchangerate-api.com/v6/c436e47e6b7020331ea6005f/pair/${fromCoin}/${toCoin}/${amount}`;
+  console.log(CurrencyUrl);
   superagent.get(CurrencyUrl)
     .then(currData => {
       //   if (cacheMemory !== undefined){
