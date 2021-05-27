@@ -1,40 +1,20 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const ratescoin = require('./CoinRate')
 const superagent = require('superagent');
-const coinSchema = new Schema({
-    index: String,
-    symboleCoin: String,
 
-})
 const pairSchema = new Schema({
     pair: String,
 
 })
 const userSchema = new Schema({
     email: String,
-    currency: [coinSchema],
+    
     pairCurrency: [pairSchema]
 });
 const newArray =[];
 
 const arrayTest =[];
-
-function getRate (userPair) {
-    // const coins = userPair.split('/')
-  
-    // const CurrencyUrl = `https://v6.exchangerate-api.com/v6/ea2e422feb34124fcd806b74/pair/${coins[0]}/${coins[1]}/1`;
-    // superagent.get(CurrencyUrl)
-    // .then(currData => {
-    //   const rate = currData.body.conversion_result
-    //   console.log('this is rate',rate)
-    // //   res.status(200).send(rate.toString())
-    // arrayTest.push(rate)
-    // return (rate.toString())
-  
-    // }).catch(console.error)
-  }
 
 
 const User = mongoose.model('User', userSchema);
@@ -44,38 +24,13 @@ const getUser = async (req, res) => {
         if (err) {
             res.status(500).send(err)
         }
-        // console.log(result)
-        const xy = {body:
-            {
-            "fCoin": "JOD",
-            "sCoin": "PHP",
-            "email": "dina.faur@yahoo.com"
-          }}
-          const yx = 'hhhh'
-        // addPair(xy,yx)
         result.length && 
-
-            // callCoin(result[0].currency) 
-            // console.log('=======================');
-            // console.log(result[0].pairCurrency.map(element=> element.pair));
-            // console.log('=======================');
         res.send(result[0].pairCurrency.map(element=> element.pair))
-            // : callAdd(email)
-            // result[0].pairCurrency.map(element=> {
-            //     const coins = element.pair.split('/')
-            //     const CurrencyUrl = `https://v6.exchangerate-api.com/v6/ea2e422feb34124fcd806b74/pair/${coins[0]}/${coins[1]}/1`;
-            //     superagent.get(CurrencyUrl)
-            //     .then(currData => {
-            //       const rate = currData.body.conversion_result
-            //       console.log('this is rate',rate)
-                //   res.status(200).send(rate.toString())
-            //     arrayTest.push(rate)
+           
             //     return (rate.toString())
             //   this.res.send(rate.toString())
             //     }).catch(console.error)
             // });
-          console.log('this is new array',newArray);
-          console.log('this is new arrayTest',arrayTest);
     })
 }
 callCoin = async (coinSchema) => {
@@ -94,7 +49,7 @@ callCoin = async (coinSchema) => {
                 x.sym = sym;
                 x.rate = rate[sym];
                 xx.push(x);
-                // console.log('sym',rate);
+                
             }
         }).catch(console.error)
 }
@@ -103,62 +58,27 @@ callCoin = async (coinSchema) => {
 callAdd = (email) => {
     const user = new User({
         email: email,
-        currency: [
-            {
-                index: '0',
-                symboleCoin: 'USD'
-            },
-            {
-                index: '1',
-                symboleCoin: 'JOD'
-            }],
         pairCurrency: [
-            {
-                pair: 'EUR/JOD'
+            {   pair: 'EUR/JOD'
             }
-        ],
-    });
+        ]    });
     user.save();
 }
 const user = new User({
     email: 'dina.faur@yahoo.com',
-    currency: [
-        {
-            index: '0',
-            symboleCoin: 'JOD'
+       pairCurrency: [
+        {pair: 'USD/JOD'},
+        {   pair: 'TRY/EUR'
+        }   ,
+        {   pair: 'USD/JOD'
         },
-        {
-            index: '1',
-            symboleCoin: 'USD'
+        {   pair: 'PHP/EUR'
+        }   ,
+        {   pair: 'USD/JOD'
         },
-        {
-            index: '2',
-            symboleCoin: 'TRY'
-        }
-    ],
-    pairCurrency: [
-        {
-            pair: 'USD/JOD'
+        {  pair: 'JOD/AUD'
         },
-        {
-            pair: 'TRY/EUR'
-        }
-   ,
-        {
-            pair: 'USD/JOD'
-        },
-        {
-            pair: 'PHP/EUR'
-        }
-   ,
-        {
-            pair: 'USD/JOD'
-        },
-        {
-            pair: 'JOD/AUD'
-        },
-        {
-            pair: 'EUR/AUD'
+        {   pair: 'EUR/AUD'
         }
     ],
 });
@@ -173,9 +93,6 @@ const addUser = async (req, res) => {
             res.status(500).send(err)
         }
         // console.log(result)
-        // result.length ? callCoin(result[0].currency) : callAdd(email)
-        // res.send(result[0].pairCurrency)
-
     })
 }
 
@@ -192,25 +109,15 @@ function createBook(req, res) {
         res.send(ownerData[16].book);
     })
 }
-
-
 function addPair(req,res)  {
-    const {  email, fCoin , sCoin } = req.body;
-    // console.log(req.body);
+    const {  email, fCoin , sCoin } = req.query;
+    console.log(req.query);
     User.find({ email: email },(error, ownerData) => {
         ownerData[0].pairCurrency.push({
             pair :`${fCoin}/${sCoin}`
         })
         ownerData[0].save();
         res.send(ownerData[0].pairCurrency.map(element=> element.pair))
-        // console.log('this is ownerdata',ownerData );
-        // ownerData[0].user.push({
-        //     name: name,
-        //     description: description,
-        //     status: status
-        // })
-        // ownerData[16].save();
-        // res.send(ownerData[16].book)
     } 
     )
 
